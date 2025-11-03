@@ -45,9 +45,16 @@ jobs:
             if [ -f "$file" ]; then
               echo "Processing $file"
               
-              # Simply insert a black background rectangle right after the opening SVG tag
-              # This avoids duplicate attributes by not recreating the SVG tag
-              sed -i '/<svg[^>]*>/a \<rect width="100%" height="100%" fill="#000000"/>' "$file"
+              # Use a more reliable method to insert the black background
+              # Find the line with the opening svg tag and insert background after it
+              awk '
+                /<svg[^>]*>/ {
+                  print $0
+                  print "<rect width=\"100%\" height=\"100%\" fill=\"#000000\"/>"
+                  next
+                }
+                { print }
+              ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
               
               # Replace light theme colors with dark ones
               sed -i 's/fill="#ebedf0"/fill="#161b22"/g' "$file"
