@@ -38,25 +38,36 @@ jobs:
             if [ -f "$file" ]; then
               echo "Processing $file"
               
-              # First, let's see the current structure
-              echo "First 5 lines of $file:"
-              head -5 "$file"
+              # Create a backup
+              cp "$file" "$file.backup"
               
-              # Insert black background rect after the style tag ends, before any other elements
-              sed -i '/<\/style>/a <rect width="100%" height="100%" fill="#000000" opacity="1"/>' "$file"
+              # Extract the viewBox and dimensions from the original SVG
+              VIEWBOX=$(grep -o 'viewBox="[^"]*"' "$file")
+              WIDTH=$(grep -o 'width="[^"]*"' "$file")
+              HEIGHT=$(grep -o 'height="[^"]*"' "$file")
               
-              # Replace common white/light fills with black/dark equivalents
-              sed -i 's/fill="white"/fill="#000000"/g' "$file"
-              sed -i 's/fill="#ffffff"/fill="#000000"/g' "$file"
+              # Create a new SVG with black background
+              echo "Creating new SVG with black background"
+              
+              # Start with SVG opening tag and black background
+              echo "<svg $VIEWBOX $WIDTH $HEIGHT xmlns=\"http://www.w3.org/2000/svg\">" > "$file.new"
+              echo "<rect width=\"100%\" height=\"100%\" fill=\"#000000\"/>" >> "$file.new"
+              
+              # Extract everything between <svg> and </svg> from original, excluding the opening svg tag
+              sed -n '/<svg[^>]*>/,/<\/svg>/p' "$file.backup" | sed '1d;$d' >> "$file.new"
+              
+              # Close the SVG
+              echo "</svg>" >> "$file.new"
+              
+              # Replace the original with the new version
+              mv "$file.new" "$file"
+              
+              # Apply color replacements
               sed -i 's/fill="#ebedf0"/fill="#161b22"/g' "$file"
               sed -i 's/fill="#f0f6fc"/fill="#0d1117"/g' "$file"
-              
-              # Ensure the background color variables are dark
               sed -i 's/--ce:#ebedf0/--ce:#161b22/g' "$file"
               sed -i 's/--cb:#1b1f230a/--cb:#000000/g' "$file"
               
-              echo "After processing, first 10 lines:"
-              head -10 "$file"
               echo "Completed processing $file"
             fi
           done
