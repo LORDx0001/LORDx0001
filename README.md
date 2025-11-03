@@ -38,9 +38,3 @@ _generated with [Platane/snk](https://github.com/Platane/snk)_
 
 ---
 
-### 📊 GitHub Stats
-
-![LORDx0001's GitHub stats](https://github-readme-stats.vercel.app/api?username=LORDx0001&show_icons=true&theme=radical)
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=LORDx0001&layout=compact&theme=radical)
-
----
