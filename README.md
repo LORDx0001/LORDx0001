@@ -3,6 +3,8 @@
 I'm a backend-focused technical lead and systems architect passionate about automation, DevOps, and scalable infrastructure.
 
 ---
+![Snake animation](https://raw.githubusercontent.com/LORDx0001/LORDx0001/output/github-contribution-grid-snake.svg)
+
 
 ### 🧠 About Me
 
@@ -14,9 +16,8 @@ I'm a backend-focused technical lead and systems architect passionate about auto
 
 ---
 
-### 🐍 Contribution Snake
 
-![Snake animation](https://raw.githubusercontent.com/LORDx0001/LORDx0001/output/github-contribution-grid-snake.svg)
+
 
 ---
 
