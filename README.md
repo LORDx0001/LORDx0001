@@ -1,6 +1,6 @@
 ## Hi there 👋 I'm LORDx0001
 
-I'm a backend-focused technical lead and systems architect passionate about automation, DevOps, and scalable infrastructure.
+I'm a backend-focused technical lead and systems architect passionate about automation and scalable infrastructure.
 
 ---
 <picture>
