@@ -1,27 +1,33 @@
-name: Generate Snake
+name: Generate Snake Animation
 
 on:
+  # run automatically every 24 hours
   schedule:
-    # Run at 00:00 UTC every day
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * *" 
+  
+  # allows to manually run the job at any time
   workflow_dispatch:
+  
+  # run on every push on the main branch (not master)
   push:
     branches:
-      - main
+    - main
     paths:
-      - '.github/workflows/snake.yml'
+    - '.github/workflows/snake.yml'
 
 jobs:
   generate:
-    permissions:
+    permissions: 
       contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
+    
     steps:
+      # Checkout repository first
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # generates a snake game from github user contributions graph, output svg animations
       - name: Generate github-contribution-grid-snake.svg
         uses: Platane/snk/svg-only@v3
         with:
@@ -30,6 +36,7 @@ jobs:
             dist/github-contribution-grid-snake.svg?palette=github-dark
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
+      # Make background black for better visibility
       - name: Make background black
         run: |
           echo "=== Making background black ==="
@@ -62,7 +69,7 @@ jobs:
               # Replace the original with the new version
               mv "$file.new" "$file"
               
-              # Apply color replacements
+              # Apply color replacements for better dark theme
               sed -i 's/fill="#ebedf0"/fill="#161b22"/g' "$file"
               sed -i 's/fill="#f0f6fc"/fill="#0d1117"/g' "$file"
               sed -i 's/--ce:#ebedf0/--ce:#161b22/g' "$file"
@@ -72,6 +79,7 @@ jobs:
             fi
           done
 
+      # Deploy to GitHub Pages output branch
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
