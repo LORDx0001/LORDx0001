@@ -19,13 +19,25 @@ jobs:
     timeout-minutes: 5
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Generate github-contribution-grid-snake.svg
         uses: Platane/snk/svg-only@v3
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/github-contribution-grid-snake.svg?palette=github-dark&background_color=%23000000
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&background_color=%23000000
+            dist/github-contribution-grid-snake.svg?palette=github-dark
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+
+      - name: Make background black
+        run: |
+          # Replace white background with black in both SVG files
+          sed -i 's/fill="white"/fill="#000000"/g' dist/github-contribution-grid-snake.svg
+          sed -i 's/fill="white"/fill="#000000"/g' dist/github-contribution-grid-snake-dark.svg
+          # Also replace any light backgrounds
+          sed -i 's/fill="#ffffff"/fill="#000000"/g' dist/github-contribution-grid-snake.svg
+          sed -i 's/fill="#ffffff"/fill="#000000"/g' dist/github-contribution-grid-snake-dark.svg
 
       - name: Push github-contribution-grid-snake.svg to the output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0
