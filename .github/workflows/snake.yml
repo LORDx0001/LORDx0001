@@ -34,18 +34,22 @@ jobs:
         run: |
           echo "=== Making background black ==="
           
-          # Create CSS to override background
           for file in dist/*.svg; do
             if [ -f "$file" ]; then
               echo "Processing $file"
               
-              # Add black background style
-              sed -i '/<svg[^>]*>/a <defs><style>.background{fill:#000000 !important;}</style></defs><rect width="100%" height="100%" fill="#000000" class="background"/>' "$file"
+              # First, add the black background rectangle right after the opening SVG tag
+              sed -i '/<svg[^>]*>/a <rect width="100%" height="100%" fill="#000000"/>' "$file"
               
-              # Replace common white fills
+              # Replace common white/light fills with black/dark equivalents
               sed -i 's/fill="white"/fill="#000000"/g' "$file"
               sed -i 's/fill="#ffffff"/fill="#000000"/g' "$file"
               sed -i 's/fill="#ebedf0"/fill="#161b22"/g' "$file"
+              sed -i 's/fill="#f0f6fc"/fill="#0d1117"/g' "$file"
+              
+              # Ensure the background color variables are dark
+              sed -i 's/--ce:#ebedf0/--ce:#161b22/g' "$file"
+              sed -i 's/--cb:#1b1f230a/--cb:#000000/g' "$file"
               
               echo "Completed processing $file"
             fi
