@@ -16,7 +16,7 @@ I'm a backend-focused technical lead and systems architect passionate about auto
 
 ### 🐍 Contribution Snake
 
-![Snake animation](https://github.com/LORDx0001/LORDx0001/blob/output/github-contribution-grid-snake.svg)
+![Snake animation](https://raw.githubusercontent.com/LORDx0001/LORDx0001/output/github-contribution-grid-snake.svg)
 
 ---
 
